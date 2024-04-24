@@ -10,20 +10,20 @@ def clear_screen():
 def import_config():
     file_path = input("Path File Wireguard: ")
     try:
-        call(['nmcli', 'connection', 'import', 'type', 'wireguard', 'file', file_path])
+        call(['sudo', 'nmcli', 'connection', 'import', 'type', 'wireguard', 'file', file_path])
     except Exception as e:
         print(f"An error occurred while importing the configuration file: {e}")
 
 def show_config():
     try:
-        call(['nmcli', 'connection', 'show'])
+        call(['sudo', 'nmcli', 'connection', 'show'])
     except Exception as e:
         print(f"An error occurred while showing the configuration: {e}")
 
 def delete_config():
     connection_id = input("ID of the connection you want to delete: ")
     try:
-        call(['nmcli', 'connection', 'delete', connection_id])
+        call(['sudo', 'nmcli', 'connection', 'delete', connection_id])
     except Exception as e:
         print(f"An error occurred while deleting the connection: {e}")
 
