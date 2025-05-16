@@ -26,3 +26,4 @@ streamlit run main.py
 4. default st.write -> False sampai tekan button
 5. streamlit emoji: https://streamlit-emoji-shortcodes-streamlit-app-gwckff.streamlit.app/
 6. st.session_state.disabled: menyimpan state dari streamlit jika True maka button tidak bisa di-klik
+7. st.slider = (100, 1000, 100) = (min, max, default)
