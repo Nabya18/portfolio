@@ -1,13 +1,37 @@
 import streamlit as st
+from supabase import create_client, Client
+from dotenv import load_dotenv
+import os
 
-uploaded_images = st.file_uploader("Choose a Image", accept_multiple_files=True)
-uploaded_texts = st.file_uploader("Choose a Text", accept_multiple_files=True)
+load_dotenv()
 
-for uploaded_image in uploaded_images:
-    st.write("filename:",uploaded_image.name)
-    st.image(uploaded_image)
+url = os.getenv("SUPABASE_URL")
+key = os.getenv("SUPABASE_KEY")
 
-for uploaded_text in uploaded_texts:
-    bytes_data = uploaded_text.read()
-    st.write("filename:",uploaded_text.name)
-    st.write(bytes_data.decode("utf-8"))
+supabase: Client = create_client(url, key)
+
+def get_todos():
+    response = supabase.table("todos").select("*").execute()
+    return response.data
+
+def add_todo(task):
+    response = supabase.table("todos").insert({"task": task}).execute()
+    return response.data
+
+st.title("Supabase Todo App")
+
+task = st.text_input("Add a new task")
+if st.button("Add"):
+    if task:
+        add_todo(task)
+        st.success("Task added successfully!")
+    else:
+        st.error("Please enter a task.")
+
+st.write("### Todo List")
+todos = get_todos()
+if todos:
+    for todo in todos:
+        st.write(f"- {todo['task']}")
+else:
+    st.write("No tasks found.")
