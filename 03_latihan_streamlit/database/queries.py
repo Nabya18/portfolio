@@ -1,4 +1,5 @@
 import bcrypt
+import psycopg
 from .connection import get_connection
 
 def hash_password(password):
@@ -18,3 +19,18 @@ def insert_user(name, email, password):
     conn.commit()
     cur.close()
     conn.close()
+
+def get_total_users():
+    conn = psycopg.connect(
+        host="localhost",
+        dbname="latihan",
+        user="user",
+        password="root",
+        port=5432
+    )
+    cur = conn.cursor()
+    cur.execute("SELECT COUNT(*) FROM users")
+    total = cur.fetchone()[0]
+    cur.close()
+    conn.close()
+    return total
